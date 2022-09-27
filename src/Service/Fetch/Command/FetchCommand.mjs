@@ -120,17 +120,18 @@ export class FetchCommand {
                 return Promise.reject(response);
             }
 
+            const content_type = response.headers.get(HEADER_CONTENT_TYPE) ?? "";
             switch (assert_type) {
                 case ASSERT_TYPE_CSS:
-                    if (!response.headers.get(HEADER_CONTENT_TYPE).includes(CONTENT_TYPE_CSS)) {
-                        throw new Error(`Response header ${HEADER_CONTENT_TYPE} need to be ${CONTENT_TYPE_CSS}`);
+                    if (!content_type.includes(CONTENT_TYPE_CSS)) {
+                        throw new Error(`Response header ${HEADER_CONTENT_TYPE} need to be ${CONTENT_TYPE_CSS}, got ${content_type}`);
                     }
 
                     return response.text();
 
                 case ASSERT_TYPE_JSON:
-                    if (!response.headers.get(HEADER_CONTENT_TYPE).includes(CONTENT_TYPE_JSON)) {
-                        throw new Error(`Response header ${HEADER_CONTENT_TYPE} need to be ${CONTENT_TYPE_JSON}`);
+                    if (!content_type.includes(CONTENT_TYPE_JSON)) {
+                        throw new Error(`Response header ${HEADER_CONTENT_TYPE} need to be ${CONTENT_TYPE_JSON}, got ${content_type}`);
                     }
 
                     return response.json();

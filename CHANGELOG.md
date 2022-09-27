@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2022-09-27-1
+
+Changes:
+
+- Fix missing response content-type header
+
 ## v2022-09-26-1
 
 Changes:
