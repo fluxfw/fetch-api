@@ -48,12 +48,12 @@ export class FetchApi {
     }
 
     /**
-     * @param {Fetch} fetch_
+     * @param {Fetch} _fetch
      * @returns {Promise<*>}
      */
-    async fetch(fetch_) {
+    async fetch(_fetch) {
         return this.#fetch_service.fetch(
-            fetch_
+            _fetch
         );
     }
 
