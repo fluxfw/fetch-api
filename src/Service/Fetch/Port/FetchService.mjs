@@ -37,16 +37,16 @@ export class FetchService {
     }
 
     /**
-     * @param {Fetch} fetch_
+     * @param {Fetch} _fetch
      * @returns {Promise<*>}
      */
-    async fetch(fetch_) {
+    async fetch(_fetch) {
         return FetchCommand.new(
             this.#show_authentication,
             this.#show_error
         )
             .fetch(
-                fetch_
+                _fetch
             );
     }
 }

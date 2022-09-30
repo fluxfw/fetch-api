@@ -40,28 +40,28 @@ export class FetchCommand {
     }
 
     /**
-     * @param {Fetch} fetch_
+     * @param {Fetch} _fetch
      * @returns {Promise<*>}
      */
-    async fetch(fetch_) {
-        const query_params = fetch_.query_params ?? null;
+    async fetch(_fetch) {
+        const query_params = _fetch.query_params ?? null;
 
-        const method = fetch_.method ?? METHOD_GET;
-        const data = fetch_.data ?? null;
+        const method = _fetch.method ?? METHOD_GET;
+        const data = _fetch.data ?? null;
 
-        const error_ui = !fetch_.no_ui && this.#show_error !== null;
-        const authentication_ui = !fetch_.no_ui && this.#show_authentication !== null;
+        const error_ui = !_fetch.no_ui && this.#show_error !== null;
+        const authentication_ui = !_fetch.no_ui && this.#show_authentication !== null;
 
-        const assert_type = fetch_.assert_type ?? ASSERT_TYPE_JSON;
+        const assert_type = _fetch.assert_type ?? ASSERT_TYPE_JSON;
 
         try {
-            const url = new URL(fetch_.url.startsWith("/") ? `${location.origin}${fetch_.url}` : fetch_.url);
+            const url = new URL(_fetch.url.startsWith("/") ? `${location.origin}${_fetch.url}` : _fetch.url);
 
             if (query_params !== null) {
                 for (const [
                     key,
                     value
-                ] of Object.entries(fetch_.query_params)) {
+                ] of Object.entries(_fetch.query_params)) {
                     if ((value ?? null) === null) {
                         continue;
                     }
@@ -102,7 +102,7 @@ export class FetchCommand {
 
             if (authentication_ui && response.status === 401 && await this.#show_authentication()) {
                 return this.fetch(
-                    fetch_
+                    _fetch
                 );
             }
 
@@ -113,7 +113,7 @@ export class FetchCommand {
                     response
                 )) {
                     return this.fetch(
-                        fetch_
+                        _fetch
                     );
                 }
 
@@ -146,7 +146,7 @@ export class FetchCommand {
                 error
             )) {
                 return this.fetch(
-                    fetch_
+                    _fetch
                 );
             }
 
