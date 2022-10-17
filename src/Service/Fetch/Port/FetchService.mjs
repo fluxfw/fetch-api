@@ -1,5 +1,3 @@
-import { FetchCommand } from "../Command/FetchCommand.mjs";
-
 /** @typedef {import("../../../Adapter/Fetch/Fetch.mjs").Fetch} Fetch */
 /** @typedef {import("../../../Adapter/Fetch/showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("../../../Adapter/Fetch/showError.mjs").showError} showError */
@@ -41,7 +39,7 @@ export class FetchService {
      * @returns {Promise<*>}
      */
     async fetch(_fetch) {
-        return FetchCommand.new(
+        return (await import("../Command/FetchCommand.mjs")).FetchCommand.new(
             this.#show_authentication,
             this.#show_error
         )
