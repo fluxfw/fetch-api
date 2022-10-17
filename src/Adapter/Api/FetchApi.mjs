@@ -1,6 +1,5 @@
-import { FetchService } from "../../Service/Fetch/Port/FetchService.mjs";
-
 /** @typedef {import("../Fetch/Fetch.mjs").Fetch} Fetch */
+/** @typedef {import("../../Service/Fetch/Port/FetchService.mjs").FetchService} FetchService */
 /** @typedef {import("../Fetch/showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("../Fetch/showError.mjs").showError} showError */
 
@@ -44,7 +43,7 @@ export class FetchApi {
      * @returns {Promise<void>}
      */
     async init() {
-        this.#fetch_service ??= this.#getFetchService();
+        this.#fetch_service ??= await this.#getFetchService();
     }
 
     /**
@@ -58,10 +57,10 @@ export class FetchApi {
     }
 
     /**
-     * @returns {FetchService}
+     * @returns {Promise<FetchService>}
      */
-    #getFetchService() {
-        return FetchService.new(
+    async #getFetchService() {
+        return (await import("../../Service/Fetch/Port/FetchService.mjs")).FetchService.new(
             this.#show_authentication,
             this.#show_error
         );
