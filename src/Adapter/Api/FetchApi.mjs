@@ -43,7 +43,7 @@ export class FetchApi {
      * @returns {Promise<void>}
      */
     async init() {
-        this.#fetch_service ??= await this.#getFetchService();
+
     }
 
     /**
@@ -51,7 +51,7 @@ export class FetchApi {
      * @returns {Promise<*>}
      */
     async fetch(_fetch) {
-        return this.#fetch_service.fetch(
+        return (await this.#getFetchService()).fetch(
             _fetch
         );
     }
@@ -60,9 +60,11 @@ export class FetchApi {
      * @returns {Promise<FetchService>}
      */
     async #getFetchService() {
-        return (await import("../../Service/Fetch/Port/FetchService.mjs")).FetchService.new(
+        this.#fetch_service ??= (await import("../../Service/Fetch/Port/FetchService.mjs")).FetchService.new(
             this.#show_authentication,
             this.#show_error
         );
+
+        return this.#fetch_service;
     }
 }
