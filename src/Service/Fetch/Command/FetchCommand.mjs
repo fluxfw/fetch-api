@@ -48,9 +48,10 @@ export class FetchCommand {
 
         const method = _fetch.method ?? METHOD_GET;
         const data = _fetch.data ?? null;
+        const abort_signal = _fetch.abort_signal ?? null;
 
-        const error_ui = !_fetch.no_ui && this.#show_error !== null;
-        const authentication_ui = !_fetch.no_ui && this.#show_authentication !== null;
+        const error_ui = !_fetch.no_ui && !_fetch.no_error_ui && this.#show_error !== null;
+        const authentication_ui = !_fetch.no_ui && !_fetch.no_authentication_ui && this.#show_authentication !== null;
 
         const assert_type = _fetch.assert_type ?? ASSERT_TYPE_JSON;
 
@@ -97,7 +98,8 @@ export class FetchCommand {
             const response = await fetch(url, {
                 method,
                 body,
-                headers
+                headers,
+                signal: abort_signal
             });
 
             if (authentication_ui && response.status === 401 && await this.#show_authentication()) {
