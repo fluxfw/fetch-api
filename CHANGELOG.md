@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2022-11-03-1
+
+Changes:
+
+- `abort_signal`, `no_error_ui`, `no_authentication_ui`
+
 ## v2022-10-28-1
 
 Changes:
