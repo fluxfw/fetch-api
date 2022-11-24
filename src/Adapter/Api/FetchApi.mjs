@@ -40,13 +40,6 @@ export class FetchApi {
     }
 
     /**
-     * @returns {Promise<void>}
-     */
-    async init() {
-
-    }
-
-    /**
      * @param {Fetch} _fetch
      * @returns {Promise<*>}
      */
