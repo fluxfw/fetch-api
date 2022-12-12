@@ -1,36 +1,36 @@
+/** @typedef {import("../../../Adapter/Fetch/authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../../../Adapter/Fetch/Fetch.mjs").Fetch} Fetch */
-/** @typedef {import("../../../Adapter/Fetch/showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("../../../Adapter/Fetch/showError.mjs").showError} showError */
 
 export class FetchService {
     /**
-     * @type {showAuthentication | null}
+     * @type {_authenticate | null}
      */
-    #show_authentication;
+    #authenticate;
     /**
      * @type {showError | null}
      */
     #show_error;
 
     /**
-     * @param {showAuthentication | null} show_authentication
+     * @param {_authenticate | null} authenticate
      * @param {showError | null} show_error
      * @returns {FetchService}
      */
-    static new(show_authentication = null, show_error = null) {
+    static new(authenticate = null, show_error = null) {
         return new this(
-            show_authentication,
+            authenticate,
             show_error
         );
     }
 
     /**
-     * @param {showAuthentication | null} show_authentication
+     * @param {_authenticate | null} authenticate
      * @param {showError | null} show_error
      * @private
      */
-    constructor(show_authentication, show_error) {
-        this.#show_authentication = show_authentication;
+    constructor(authenticate, show_error) {
+        this.#authenticate = authenticate;
         this.#show_error = show_error;
     }
 
@@ -40,7 +40,7 @@ export class FetchService {
      */
     async fetch(_fetch) {
         return (await import("../Command/FetchCommand.mjs")).FetchCommand.new(
-            this.#show_authentication,
+            this.#authenticate,
             this.#show_error
         )
             .fetch(

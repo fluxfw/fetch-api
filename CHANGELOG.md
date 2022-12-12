@@ -6,6 +6,12 @@ Changes:
 
 \-
 
+## v2022-12-12-1
+
+Changes:
+
+- Rename `showAuthentication` to `authenticate`
+
 ## v2022-12-08-1
 
 Changes:
