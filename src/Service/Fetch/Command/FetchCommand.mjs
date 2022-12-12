@@ -3,39 +3,39 @@ import { ASSERT_TYPE_CSS, ASSERT_TYPE_JSON } from "../../../Adapter/AssertType/A
 import { CONTENT_TYPE_CSS, CONTENT_TYPE_JSON } from "../../../Adapter/ContentType/CONTENT_TYPE.mjs";
 import { HEADER_ACCEPT, HEADER_CONTENT_TYPE } from "../../../Adapter/Header/HEADER.mjs";
 
+/** @typedef {import("../../../Adapter/Fetch/authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../../../Adapter/Fetch/Fetch.mjs").Fetch} Fetch */
-/** @typedef {import("../../../Adapter/Fetch/showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("../../../Adapter/Fetch/showError.mjs").showError} showError */
 
 export class FetchCommand {
     /**
-     * @type {showAuthentication | null}
+     * @type {_authenticate | null}
      */
-    #show_authentication;
+    #authenticate;
     /**
      * @type {showError | null}
      */
     #show_error;
 
     /**
-     * @param {showAuthentication | null} show_authentication
+     * @param {_authenticate | null} authenticate
      * @param {showError | null} show_error
      * @returns {FetchCommand}
      */
-    static new(show_authentication = null, show_error = null) {
+    static new(authenticate = null, show_error = null) {
         return new this(
-            show_authentication,
+            authenticate,
             show_error
         );
     }
 
     /**
-     * @param {showAuthentication | null} show_authentication
+     * @param {_authenticate | null} authenticate
      * @param {showError | null} show_error
      * @private
      */
-    constructor(show_authentication, show_error) {
-        this.#show_authentication = show_authentication;
+    constructor(authenticate, show_error) {
+        this.#authenticate = authenticate;
         this.#show_error = show_error;
     }
 
@@ -51,7 +51,7 @@ export class FetchCommand {
         const abort_signal = _fetch.abort_signal ?? null;
 
         const error_ui = !_fetch.no_ui && !_fetch.no_error_ui && this.#show_error !== null;
-        const authentication_ui = !_fetch.no_ui && !_fetch.no_authentication_ui && this.#show_authentication !== null;
+        const authenticate = !_fetch.no_ui && !_fetch.no_authenticate && this.#authenticate !== null;
 
         const assert_type = _fetch.assert_type ?? ASSERT_TYPE_JSON;
 
@@ -102,7 +102,7 @@ export class FetchCommand {
                 signal: abort_signal
             });
 
-            if (authentication_ui && response.status === 401 && await this.#show_authentication()) {
+            if (authenticate && response.status === 401 && await this.#authenticate()) {
                 return this.fetch(
                     _fetch
                 );

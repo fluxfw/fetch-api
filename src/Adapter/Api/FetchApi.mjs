@@ -1,41 +1,41 @@
+/** @typedef {import("../Fetch/authenticate.mjs").authenticate} _authenticate */
 /** @typedef {import("../Fetch/Fetch.mjs").Fetch} Fetch */
 /** @typedef {import("../../Service/Fetch/Port/FetchService.mjs").FetchService} FetchService */
-/** @typedef {import("../Fetch/showAuthentication.mjs").showAuthentication} showAuthentication */
 /** @typedef {import("../Fetch/showError.mjs").showError} showError */
 
 export class FetchApi {
     /**
+     * @type {_authenticate | null}
+     */
+    #authenticate;
+    /**
      * @type {FetchService | null}
      */
     #fetch_service = null;
-    /**
-     * @type {showAuthentication | null}
-     */
-    #show_authentication;
     /**
      * @type {showError | null}
      */
     #show_error;
 
     /**
-     * @param {showAuthentication | null} show_authentication
+     * @param {_authenticate | null} authenticate
      * @param {showError | null} show_error
      * @returns {FetchApi}
      */
-    static new(show_authentication = null, show_error = null) {
+    static new(authenticate = null, show_error = null) {
         return new this(
-            show_authentication,
+            authenticate,
             show_error
         );
     }
 
     /**
-     * @param {showAuthentication | null} show_authentication
+     * @param {_authenticate | null} authenticate
      * @param {showError | null} show_error
      * @private
      */
-    constructor(show_authentication, show_error) {
-        this.#show_authentication = show_authentication;
+    constructor(authenticate, show_error) {
+        this.#authenticate = authenticate;
         this.#show_error = show_error;
     }
 
@@ -54,7 +54,7 @@ export class FetchApi {
      */
     async #getFetchService() {
         this.#fetch_service ??= (await import("../../Service/Fetch/Port/FetchService.mjs")).FetchService.new(
-            this.#show_authentication,
+            this.#authenticate,
             this.#show_error
         );
 
